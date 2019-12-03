@@ -32,9 +32,8 @@ const resetCount = () => ({
 });
 
 // Reducers
-// 1. Reducers are pure functions
-// 2. Never change state or action
-// Reducers should  only have variables with scope inside the function
+// 1. Reducers are pure functions (should  only have variables with scope inside the actual function)
+// 2. Never change state or action, instead just read those two arguments
 
 const countReducer = (state = { count: 0 }, action) => {
   switch (action.type) {
