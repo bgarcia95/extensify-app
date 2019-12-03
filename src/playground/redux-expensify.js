@@ -25,7 +25,18 @@ const removeExpense = ({ id } = {}) => ({
 });
 
 // EDIT_EXPENSE
+const editExpense = (id, updates) => ({
+  type: "EDIT_EXPENSE",
+  id,
+  updates
+});
+
 // SET_TEXT_FILTER
+const setTextFilter = (text = "") => ({
+  type: "SET_TEXT_FILTER",
+  text
+});
+
 // SORT_BY_DATE
 // SORT_BY_AMOUNT
 // SET_START_DATE
@@ -43,6 +54,18 @@ const expensesReducer = (state = expensesReducerDefaultState, action) => {
       // Filter is similar to map, it returns individual objects (or items) from an array, that's wny accessed to the object's id with -> (object) expense.id (object's property)
       // We can also go further and destructure 'expense' object by using the following syntax -> return state.filter(({id}) => id !== action.id);
       return state.filter(({ id }) => id !== action.id);
+    case "EDIT_EXPENSE":
+      return state.map(expense => {
+        if (expense.id === action.id) {
+          return {
+            ...expense,
+            // Here we will override all the properties we are passing down (in this case will be only the amount)
+            ...action.updates
+          };
+        } else {
+          return expense;
+        }
+      });
     default:
       return state;
   }
@@ -59,6 +82,11 @@ const filtersReducerDefaultState = {
 
 const filtersReducer = (state = filtersReducerDefaultState, action) => {
   switch (action.type) {
+    case "SET_TEXT_FILTER":
+      return {
+        ...state,
+        text: action.text
+      };
     default:
       return state;
   }
@@ -77,6 +105,7 @@ store.subscribe(() => {
   console.log(store.getState());
 });
 
+// Adding expenses
 const expenseOne = store.dispatch(
   addExpense({
     description: "Rent",
@@ -91,9 +120,13 @@ const expenseTwo = store.dispatch(
   })
 );
 
+// Removing Expenses
 store.dispatch(removeExpense({ id: expenseOne.expense.id }));
 
-// console.log(expenseOne);
+// Editing Expenses
+store.dispatch(editExpense(expenseTwo.expense.id, { amount: 500 }));
+
+store.dispatch(setTextFilter("rent"));
 
 const demoState = {
   expenses: [
@@ -112,3 +145,14 @@ const demoState = {
     endDate: undefined
   }
 };
+
+// const user = {
+//   name: "Jen",
+//   age: 24
+// };
+
+// console.log({
+//   ...user,
+//   location: "Santa Ana",
+//   age: 27
+// });
