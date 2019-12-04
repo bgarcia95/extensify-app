@@ -18,19 +18,21 @@ const store = configureStore();
 
 store.dispatch(
   addExpense({
-    description: "Water Bill"
+    description: "Water Bill",
+    amount: 4500
   })
 );
 
 store.dispatch(
   addExpense({
-    description: "Gas Bill"
+    description: "Gas Bill",
+    amount: 5000
   })
 );
 
 store.dispatch(setTextFilter("water"));
 setTimeout(() => {
-  store.dispatch(setTextFilter("rent"));
+  store.dispatch(setTextFilter("bill"));
 }, 3000);
 
 const { expenses, filters } = store.getState();
