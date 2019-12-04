@@ -26,19 +26,21 @@ store.dispatch(
 store.dispatch(
   addExpense({
     description: "Gas Bill",
-    amount: 5000
+    createdAt: 1000
   })
 );
 
-store.dispatch(setTextFilter("water"));
-setTimeout(() => {
-  store.dispatch(setTextFilter("bill"));
-}, 3000);
+store.dispatch(
+  addExpense({
+    description: "Rent",
+    amount: 109500
+  })
+);
 
-const { expenses, filters } = store.getState();
-const visibleExpenses = getVisibleExpenses(expenses, filters);
+// const { expenses, filters } = store.getState();
+// const visibleExpenses = getVisibleExpenses(expenses, filters);
 
-console.log(`Filtered by: ${filters.text}`, visibleExpenses);
+// console.log(`Filtered by: ${filters.text}`, visibleExpenses);
 
 const jsx = (
   <Provider store={store}>
