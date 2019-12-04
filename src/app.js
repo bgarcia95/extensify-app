@@ -29,6 +29,9 @@ store.dispatch(
 );
 
 store.dispatch(setTextFilter("water"));
+setTimeout(() => {
+  store.dispatch(setTextFilter("rent"));
+}, 3000);
 
 const { expenses, filters } = store.getState();
 const visibleExpenses = getVisibleExpenses(expenses, filters);
