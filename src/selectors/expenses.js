@@ -1,3 +1,5 @@
+import moment from "moment";
+
 // Timestamps -> counting in milliseconds
 // January 1st 1970 (unix epoch) -> this is the value set when timestamp is set to 0
 // When a positive number is set the date is forward the one when the value is set to 0 and if negative, it goes backwards
@@ -7,10 +9,15 @@
 export default (expenses, { text, sortBy, startDate, endDate }) => {
   return expenses
     .filter(expense => {
-      const startDateMatch =
-        typeof startDate !== "number" || expense.createdAt >= startDate;
-      const endDateMatch =
-        typeof endDate !== "number" || expense.createdAt <= endDate;
+      const createdAtMoment = moment(expense.createdAt);
+      // same or before
+      const startDateMatch = startDate
+        ? startDate.isSameOrBefore(createdAtMoment, "day")
+        : true;
+      // same or after
+      const endDateMatch = endDate
+        ? endDate.isSameOrAfter(createdAtMoment, "day")
+        : true;
 
       const textMatch = expense.description
         .toLowerCase()
