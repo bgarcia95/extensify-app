@@ -15,7 +15,7 @@ export default (state = expensesReducerDefaultState, action) => {
         if (expense.id === action.id) {
           return {
             ...expense,
-            // Here we will override all the properties we are passing down (in this case will be only the amount)
+            // Here we will override all the properties we are passing down
             ...action.updates
           };
         } else {
