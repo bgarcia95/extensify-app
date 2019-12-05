@@ -8,7 +8,7 @@ const ExpenseListItem = ({ id, description, amount, createdAt, dispatch }) => {
     <div>
       <h3>{description}</h3>
       <p>
-        ${amount / 100} - {createdAt}
+        ${amount} - {createdAt}
       </p>
       <button
         onClick={() => {
