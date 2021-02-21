@@ -11,33 +11,39 @@ export default class ExpenseForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      description: props.expense ? props.expense.description : "",
-      note: props.expense ? props.expense.note : "",
-      amount: props.expense ? (props.expense.amount / 100).toString() : "",
-      createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
+      description: props.expense
+        ? props.expense.map((exp) => exp.description)
+        : "",
+      note: props.expense ? props.expense.map((exp) => exp.note) : "",
+      amount: props.expense
+        ? props.expense.map((exp) => exp.amount / 100).toString()
+        : "",
+      createdAt: props.expense
+        ? moment(props.expense.map((exp) => exp.createdAt))
+        : moment(),
       calendarFocused: false,
-      error: ""
+      error: "",
     };
   }
 
-  onDescriptionChange = e => {
+  onDescriptionChange = (e) => {
     const description = e.target.value;
     this.setState(() => ({ description }));
   };
 
-  onNoteChange = e => {
+  onNoteChange = (e) => {
     const note = e.target.value;
     this.setState(() => ({ note }));
   };
 
-  onAmountChange = e => {
+  onAmountChange = (e) => {
     const amount = e.target.value;
     if (!amount || amount.match(/^\d{1,}(\.\d{0,2})?$/)) {
       this.setState(() => ({ amount }));
     }
   };
 
-  onDateChange = createdAt => {
+  onDateChange = (createdAt) => {
     if (createdAt) {
       this.setState(() => ({ createdAt }));
     }
@@ -55,12 +61,12 @@ export default class ExpenseForm extends React.Component {
   //     }));
   //   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     if (!this.state.description || !this.state.amount) {
       // Set error state equal to 'Please provide description and amount
       this.setState(() => ({
-        error: "Please provide description and amount."
+        error: "Please provide description and amount.",
       }));
     } else {
       // Clear the error
@@ -69,7 +75,7 @@ export default class ExpenseForm extends React.Component {
         description: this.state.description,
         amount: parseFloat(this.state.amount, 10) * 100,
         createdAt: this.state.createdAt.valueOf(),
-        note: this.state.note
+        note: this.state.note,
       });
     }
   };
